@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BÁO MOMJOKES: tin thời sự, thể thao và mạng xã hội qua lăng kính châm biếm của VuxCd.">
+  <meta name="theme-color" content="#111923">
+  <title>BÁO MOMJOKES | VuxCd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #17212b;
+      --ink-soft: #52606d;
+      --muted: #7c8792;
+      --paper: #ffffff;
+      --canvas: #f2f4f6;
+      --line: #e3e7eb;
+      --red: #b5122a;
+      --red-dark: #8f1023;
+      --navy: #111923;
+      --navy-2: #1c2936;
+      --max: 1160px;
+      --shadow: 0 12px 34px rgba(17, 25, 35, .07);
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid #e2a23a; outline-offset: 3px; }
+    .article-card { min-height: 100%; }
+    .article-card .category { display: inline-flex; align-items: center; gap: 6px; }
+    .article-card .meta { font-size: 10px; }
+    .article-view { max-width: 900px; margin: 0 auto; }
+    .article-view .article-hero { width: 100%; max-height: 460px; object-fit: cover; border-radius: 4px; }
+    .article-body p { margin: 0 0 16px; }
+    .article-body h2 { margin: 28px 0 10px; }
+    .article-actions { display:flex; flex-wrap:wrap; gap:10px; margin:22px 0; }
+    .article-actions a { color:var(--red); font-weight:700; font-size:12px; }
+    .satire-note { margin:18px 0; padding:13px 16px; border-left:4px solid #d69a36; background:#fff8e9; color:#68512a; font-size:12px; }
+    .home-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
+    .home-toolbar small { color:var(--muted); }
+    .pill { display:inline-block; padding:4px 8px; margin:0 5px 5px 0; border-radius:20px; background:#f3e8ea; color:var(--red); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; }
+    .comment-delete { margin-top:8px; }
+    @media (max-width:640px) { .utility-inner { align-items:stretch; flex-direction:column; } .search { width:100%; } .home-toolbar { align-items:flex-start; flex-direction:column; } }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: "DM Sans", Arial, sans-serif;
+      line-height: 1.7;
+    }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+
+    .masthead {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background: linear-gradient(112deg, #101820 0%, #1c2a38 66%, #781525 100%);
+    }
+    .masthead::after {
+      content: "MJ";
+      position: absolute;
+      right: max(5%, calc((100% - var(--max)) / 2));
+      top: -70px;
+      color: rgba(255,255,255,.045);
+      font: 800 clamp(150px, 22vw, 260px)/1 Manrope, sans-serif;
+      pointer-events: none;
+    }
+    .masthead-inner {
+      position: relative;
+      z-index: 1;
+      width: min(var(--max), calc(100% - 40px));
+      margin: auto;
+      padding: 30px 0 20px;
+    }
+    .brand {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      font: 800 clamp(29px, 5vw, 43px)/1.1 Manrope, sans-serif;
+      letter-spacing: 1.4px;
+    }
+    .tagline {
+      margin: 9px 0 0;
+      color: #d0d8df;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+    }
+    .masthead-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 25px;
+      margin-top: 23px;
+      padding-top: 13px;
+      border-top: 1px solid rgba(255,255,255,.18);
+      color: #c0cad3;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+    .masthead-meta strong { color: #fff; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 18px rgba(20,30,40,.045);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: min(var(--max), calc(100% - 40px));
+      min-height: 54px;
+      margin: auto;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .nav-link {
+      flex: 0 0 auto;
+      padding: 17px 13px;
+      border: 0;
+      border-bottom: 3px solid transparent;
+      background: transparent;
+      color: #43505c;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .65px;
+      white-space: nowrap;
+      transition: color .18s, background .18s, border-color .18s;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--red);
+      background: #fbf4f5;
+      border-bottom-color: var(--red);
+    }
+
+    .utility-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    .utility-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: min(var(--max), calc(100% - 40px));
+      margin: auto;
+      padding: 17px 0;
+    }
+    .utility-copy { display: grid; line-height: 1.35; }
+    .eyebrow {
+      color: var(--red);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+    .utility-copy strong {
+      margin-top: 4px;
+      font: 700 15px Manrope, sans-serif;
+    }
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: min(430px, 100%);
+      min-height: 43px;
+      padding: 0 12px;
+      border: 1px solid #dce2e7;
+      border-radius: 4px;
+      background: #fafbfc;
+    }
+    .search-icon { color: #77838e; font-size: 22px; line-height: 1; }
+    .search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 12px;
+    }
+    .search button {
+      display: none;
+      padding: 0 3px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 20px;
+    }
+    .search-status {
+      width: min(var(--max), calc(100% - 40px));
+      min-height: 18px;
+      margin: -10px auto 0;
+      padding-bottom: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .page {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 34px auto 60px;
+    }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin: 0 0 18px;
+      font: 800 18px Manrope, sans-serif;
+      letter-spacing: .25px;
+      text-transform: uppercase;
+    }
+    .section-heading::before {
+      width: 4px;
+      height: 23px;
+      background: var(--red);
+      content: "";
+    }
+    .featured {
+      display: grid;
+      grid-template-columns: 1.08fr 1fr;
+      overflow: hidden;
+      margin-bottom: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .featured-media { min-height: 330px; background: #dfe4e8; }
+    .featured-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 330px;
+      object-fit: cover;
+    }
+    .featured-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(23px, 4vw, 43px);
+    }
+    .category {
+      color: var(--red);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.35px;
+      text-transform: uppercase;
+    }
+    .featured h1 {
+      margin: 12px 0;
+      font: 800 clamp(24px, 3.3vw, 36px)/1.18 Manrope, sans-serif;
+      letter-spacing: -.65px;
+    }
+    .featured-copy p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 14px;
+    }
+    .meta {
+      margin-top: 13px;
+      color: #8b959e;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .25px;
+    }
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 19px;
+      padding: 12px 17px;
+      border: 0;
+      border-radius: 3px;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-decoration: none;
+      transition: background .18s, transform .18s;
+    }
+    .primary-button:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 21px;
+    }
+    .article-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #fff;
+      box-shadow: 0 5px 20px rgba(20,30,40,.045);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .article-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 13px 28px rgba(20,30,40,.10);
+    }
+    .card-image {
+      display: block;
+      width: 100%;
+      height: 225px;
+      background: #e3e7eb;
+      object-fit: cover;
+    }
+    .card-content { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 21px; }
+    .article-card h3 {
+      margin: 8px 0 9px;
+      font: 800 18px/1.34 Manrope, sans-serif;
+      letter-spacing: -.25px;
+    }
+    .article-card p { margin: 0; color: var(--ink-soft); font-size: 13px; }
+    .article-card .meta { margin-top: auto; padding-top: 12px; }
+    .article-card .primary-button { margin-top: 13px; }
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 34px 20px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #fff;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .article-view {
+      display: none;
+      padding: clamp(22px, 5vw, 52px);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .article-view.visible { display: block; }
+    .article-view h1 {
+      max-width: 900px;
+      margin: 10px 0 12px;
+      font: 800 clamp(27px, 4.2vw, 43px)/1.16 Manrope, sans-serif;
+      letter-spacing: -.8px;
+    }
+    .article-view .article-lead {
+      margin: 21px 0;
+      color: #53616d;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.65;
+    }
+    .article-hero {
+      display: block;
+      width: 100%;
+      max-height: 490px;
+      margin: 24px 0;
+      border-radius: 4px;
+      background: #e3e7eb;
+      object-fit: cover;
+    }
+    .article-view h2 {
+      margin: 29px 0 7px;
+      color: #9f1425;
+      font: 800 20px/1.35 Manrope, sans-serif;
+    }
+    .article-view p {
+      margin: 12px 0;
+      color: #35414d;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+    .duo-photo {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 20px 0 25px;
+    }
+    .duo-photo figure { min-width: 0; margin: 0; }
+    .duo-photo img {
+      display: block;
+      width: 100%;
+      height: 290px;
+      border-radius: 4px;
+      background: #e3e7eb;
+      object-fit: cover;
+    }
+    .duo-photo figcaption {
+      padding-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .verdict {
+      margin: 26px 0;
+      padding: 18px 20px;
+      border-left: 4px solid var(--red);
+      background: var(--navy);
+      color: #fff;
+      font: 800 16px/1.5 Manrope, sans-serif;
+      letter-spacing: .3px;
+      text-align: center;
+    }
+    .source-note {
+      margin-top: 28px;
+      padding: 14px 16px;
+      border-left: 3px solid #9aa5af;
+      background: #f6f8f9;
+      color: #687582;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .source-note a { color: var(--red); }
+
+    .comments {
+      margin-top: 42px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+    .comments h2 {
+      margin: 0 0 5px;
+      color: var(--ink);
+      font: 800 22px Manrope, sans-serif;
+    }
+    .comments-intro { margin: 0 0 17px !important; color: var(--muted) !important; font-size: 12px !important; }
+    .comment-form {
+      display: grid;
+      gap: 10px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #f7f8fa;
+    }
+    .comment-form input, .comment-form textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #dce2e7;
+      border-radius: 3px;
+      outline-color: var(--red);
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+    }
+    .comment-form textarea { min-height: 95px; resize: vertical; }
+    .comment-form button {
+      justify-self: start;
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 3px;
+      background: var(--navy);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .7px;
+    }
+    .comment-form button:hover { background: var(--red); }
+    .comment-list { display: grid; gap: 12px; margin-top: 18px; }
+    .comment-item { padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .comment-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+    .comment-name { color: #263440; font-size: 12px; font-weight: 800; }
+    .comment-date { color: #9aa3ab; font-size: 10px; }
+    .comment-body { margin-top: 5px; color: #53606c; font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .comment-delete { margin-top: 7px; padding: 0; border: 0; background: transparent; color: #9b5960; font-size: 10px; }
+    .comment-empty { color: var(--muted); font-size: 12px; }
+
+    .back-button {
+      margin-top: 26px;
+      padding: 11px 16px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .6px;
+    }
+    .back-button:hover { border-color: var(--red); color: var(--red); }
+
+    .site-footer {
+      margin-top: 55px;
+      padding: 32px 20px;
+      border-top: 4px solid var(--red);
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+    }
+    .site-footer h2 { margin: 0; font: 800 20px Manrope, sans-serif; letter-spacing: 1px; }
+    .site-footer p { margin: 7px 0 0; color: #b3bec8; font-size: 11px; }
+
+    @media (max-width: 760px) {
+      .masthead-inner, .nav-inner, .utility-inner, .search-status, .page { width: min(100% - 28px, var(--max)); }
+      .masthead-inner { padding-top: 25px; }
+      .masthead-meta { gap: 8px 17px; }
+      .utility-inner { align-items: stretch; flex-direction: column; gap: 12px; }
+      .search { width: 100%; }
+      .search-status { margin-top: -10px; }
+      .featured { grid-template-columns: 1fr; }
+      .featured-media, .featured-media img { min-height: 0; height: 235px; }
+      .article-grid { grid-template-columns: 1fr; gap: 15px; }
+      .card-image { height: 215px; }
+      .duo-photo { grid-template-columns: 1fr; }
+      .duo-photo img { height: 250px; }
+      .article-view .article-lead { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  
+    .account-strip{width:min(var(--max),calc(100% - 40px));margin:0 auto;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft)}
+    .account-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .account-actions button,.auth-submit{border:1px solid var(--line);border-radius:5px;background:#fff;padding:8px 12px;font-size:11px;font-weight:800;color:var(--navy)}
+    .account-actions button:hover,.auth-submit:hover{background:var(--navy);color:#fff}
+    .account-actions #guestContinue{background:#f4f5f6}
+    .role-chip{display:inline-block;padding:3px 8px;border-radius:20px;background:#e9eef4;color:#24384b;font-size:10px;font-weight:900;margin-left:6px}
+    .role-admin{background:#fce8e8;color:#a3132a}.role-user{background:#e5f5ed;color:#17633d}.role-guest{background:#edf0f3;color:#53606b}
+    .auth-backdrop{position:fixed;inset:0;background:rgba(7,13,20,.72);z-index:100;display:grid;place-items:center;padding:18px}
+    .auth-box{width:min(430px,100%);background:#fff;border-radius:10px;padding:26px;box-shadow:0 24px 80px #0005}
+    .auth-box h2{margin:0 0 6px;font:800 24px Manrope,sans-serif;color:var(--navy)}
+    .auth-box p{font-size:12px;color:var(--muted);margin:0 0 18px}
+    .auth-box label{display:block;font-size:11px;font-weight:800;margin:12px 0 5px}
+    .auth-box input{width:100%;padding:11px;border:1px solid var(--line);border-radius:5px}
+    .auth-box .auth-submit{width:100%;margin-top:16px;background:var(--red);color:#fff;border:0}
+    .auth-close{float:right;border:0;background:transparent;font-size:23px}
+    .auth-warning{margin-top:14px;padding:10px;background:#fff6e5;color:#72541b;font-size:10px;line-height:1.6}
+    .admin-tools{padding:12px;margin:15px 0;background:#fff1f1;border:1px solid #f0c9ce;color:#812033;font-size:12px}
+    .comment-delete{border:0;background:transparent;color:#a3132a;font-size:11px;font-weight:800;cursor:pointer}
+    @media(max-width:640px){.account-strip{align-items:flex-start;flex-direction:column}.account-actions{width:100%}.account-actions button{flex:1}}
+
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="brand" href="#home" onclick="showHome();return false;">BÁO MOMJOKES</a>
+      <p class="tagline">Tin nóng mỗi ngày · Cà khịa có căn cứ · Không phát thuốc trợ tim</p>
+      <div class="masthead-meta"><span><strong>Biên tập:</strong> VuxCd</span><span><strong>Phiên bản:</strong> 2.0</span><span><strong>Ngày cập nhật:</strong> 02.11.2026</span></div>
+    </div>
+  </header>
+  <div class="nav-wrap"><nav class="nav-inner" aria-label="Điều hướng chính">
+    <button class="nav-link active" data-filter="all" onclick="filterCategory('all',this)">Tất cả</button>
+    <button class="nav-link" data-filter="Chính trị" onclick="filterCategory('Chính trị',this)">Chính trị</button>
+    <button class="nav-link" data-filter="Thể thao" onclick="filterCategory('Thể thao',this)">Thể thao</button>
+    <button class="nav-link" data-filter="Mạng xã hội" onclick="filterCategory('Mạng xã hội',this)">Mạng xã hội</button>
+    <button class="nav-link" data-filter="Góc cà khịa" onclick="filterCategory('Góc cà khịa',this)">Góc cà khịa</button>
+  </nav></div>
+  <section class="utility-bar" aria-label="Tìm kiếm bài viết"><div class="utility-inner">
+    <div class="utility-copy"><span class="eyebrow">Báo MomJokes</span><strong>Tin tức thì thật. Góc nhìn thì hơi… mất nết.</strong></div>
+    <label class="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="articleSearch" type="search" placeholder="Tìm chính trị, bóng đá, drama mạng..." aria-label="Tìm kiếm bài viết"><button id="clearSearch" type="button" aria-label="Xóa tìm kiếm">×</button></label>
+  </div><div class="account-strip"><div id="accountStatus">Bạn đang xem với tư cách khách.</div><div class="account-actions"><button type="button" id="loginOpen">Đăng nhập</button><button type="button" id="registerOpen">Đăng ký</button><button type="button" id="guestContinue">Tiếp tục với Guest</button><button type="button" id="logoutBtn" hidden>Đăng xuất</button></div></div><p class="search-status" id="searchStatus" aria-live="polite"></p></section>
+  <main class="page">
+    <section id="home">
+      <div class="featured"><div class="featured-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/United_States_Capitol_-_west_front.jpg?width=1400" alt="Tòa nhà Quốc hội Hoa Kỳ" loading="lazy" onerror="imageFallback(this)"></div>
+        <div class="featured-copy"><span class="category">Chuyên đề · Thời sự và đời sống số</span><h1>Thế giới đang chạy nhanh. Bình luận trên mạng còn chạy nhanh hơn.</h1><p>Chính trị, thể thao, mạng xã hội và những màn xử lý khiến người xem phải tự hỏi: đây là tin tức hay nội dung giải trí có ngân sách?</p><span class="meta">Biên tập: VuxCd · BÁO MOMJOKES</span><button class="primary-button" onclick="showArticle('us-midterms')">Đọc bài nổi bật →</button></div></div>
+      <div class="home-toolbar"><h2 class="section-heading">Mới trên MomJokes</h2><small id="articleCount"></small></div>
+      <div class="article-grid" id="articleGrid" aria-live="polite"></div>
+    </section>
+    <article class="article-view" id="articleView" hidden aria-live="polite"></article>
+    <aside class="source-note"><strong>Lưu ý biên tập:</strong> MomJokes là trang bình luận/châm biếm. Thông tin sự kiện được dẫn nguồn ở cuối từng bài; câu đùa, ví von và nhận xét là quan điểm giải trí của tác giả, không phải phát ngôn của nhân vật được nhắc đến.</aside>
+  </main>
+  <footer class="site-footer"><h2>BÁO MOMJOKES ⚡</h2><p>Thế giới nghiêm túc, chúng tôi cố gắng không quá nghiêm trọng.</p><p>Biên tập &amp; tác giả: VuxCd</p><p>© 2026 BÁO MOMJOKES · Phiên bản thử nghiệm phân quyền</p></footer>
+<div class="auth-backdrop" id="authBackdrop" hidden>
+ <section class="auth-box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <button class="auth-close" id="authClose" aria-label="Đóng">×</button>
+  <h2 id="authTitle">Đăng nhập MomJokes</h2>
+  <p id="authSubtitle">Đăng nhập để bình luận và sử dụng tài khoản.</p>
+  <form id="authForm">
+   <label for="authName">Tên hiển thị</label><input id="authName" maxlength="32" autocomplete="nickname" placeholder="Tên của bạn" hidden>
+   <label for="authEmail">Email hoặc tên tài khoản</label><input id="authEmail" required maxlength="80" autocomplete="username" placeholder="vd: bro123">
+   <label for="authPassword">Mật khẩu</label><input id="authPassword" type="password" required minlength="6" maxlength="100" autocomplete="current-password" placeholder="Ít nhất 6 ký tự">
+   <button class="auth-submit" type="submit" id="authSubmit">Đăng nhập</button>
+  </form>
+  <div class="auth-warning">Bản GitHub Pages hiện là bản minh họa: tài khoản chỉ lưu trên trình duyệt này, chưa có máy chủ xác thực. Không dùng mật khẩu thật hoặc mật khẩu đang dùng ở nơi khác.</div>
+ </section>
+</div>
+<script>
+"use strict";
+
+const articles = [
+ {id:"us-midterms",category:"Chính trị",title:"Bầu cử giữa kỳ Mỹ: chiếc ghế nóng và cuộc thi ai hứa hay hơn",date:"02/11/2026",image:"https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1400&q=85",alt:"Tòa nhà nghị viện và hoạt động chính trị",summary:"Cuộc bầu cử giữa kỳ ngày 3/11 đang đến gần. Các chính trị gia bước vào giai đoạn mà mỗi câu nói đều có thể thành tiêu đề, meme hoặc cả hai.",tags:["Hoa Kỳ","Bầu cử","Chính trị"],paragraphs:[ ["Một chiếc ghế, hàng triệu lời hứa", "Bầu cử giữa kỳ tại Mỹ diễn ra ngày 3/11/2026, trong bối cảnh các vấn đề kinh tế và chính sách đối ngoại được cử tri theo dõi sát sao. Đây là cuộc kiểm tra quan trọng đối với cán cân quyền lực ở Quốc hội. Nói nôm na: chiếc ghế trong phòng họp bỗng trở thành món đồ được săn đón hơn cả ghế gaming giảm giá."], ["Lời hứa có bảo hành không?", "Mỗi mùa vận động, cử tri lại nghe đủ giải pháp cho giá cả, việc làm, y tế và an ninh. Những vấn đề ấy không thể giải quyết chỉ bằng một câu khẩu hiệu. Nếu lời hứa có tem bảo hành, chắc bộ phận chăm sóc khách hàng sẽ phải tuyển thêm nhân viên."], ["Góc nhìn MomJokes", "Điều đáng quan tâm không phải ai có câu nói viral nhất, mà là sau ngày bỏ phiếu, ai biến cam kết thành chính sách có thể kiểm chứng. Lá phiếu không phải nút like. Bấm xong không thể quay lại sửa caption." ]],source:[ ["AP: Cảnh báo về nguy cơ căng thẳng Iran sau bầu cử giữa kỳ", "https://apnews.com/article/c7df622f1e87de6035173be8fb8c4add" ] ]},
+ {id:"iran-hormuz",category:"Chính trị",title:"Eo biển Hormuz: cả thế giới nín thở, giá xăng thì không biết nín",date:"02/11/2026",image:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=85",alt:"Tàu thuyền trên biển",summary:"Iran nói có thể mở lại tuyến hàng hải trong hai ngày nếu đạt được các điều kiện với Mỹ. Ngoại giao đang chạy nước rút, thị trường thì refresh liên tục.",tags:["Iran","Trung Đông","Năng lượng"],paragraphs:[["Một eo biển, quá nhiều sức nặng", "Iran tuyên bố có thể mở lại eo biển Hormuz và nối lại đàm phán hạt nhân với Mỹ trong vòng hai ngày nếu Washington đáp ứng các điều kiện mà Tehran đưa ra. Đây là đề xuất từ phía Iran, chưa đồng nghĩa hai bên đã đạt thỏa thuận."],["Địa chính trị không phải nút bật/tắt", "Hormuz là tuyến vận chuyển năng lượng quan trọng. Bất kỳ tín hiệu căng thẳng hay hạ nhiệt nào cũng có thể tác động đến vận tải và tâm lý thị trường. Người dân chỉ mong mọi bên chọn bàn đàm phán thay vì biến bản đồ thành bàn cờ có thật."],["Góc nhìn MomJokes", "Trong lúc các nhà ngoại giao cân từng câu chữ, người tiêu dùng cân từng lít xăng. Mong rằng kết quả cuối cùng là một thỏa thuận đủ chắc, chứ không phải thêm một mùa giải 'đoán xem ngày mai có chuyện gì'."]],source:[["AP: Iran nói có thể mở lại eo biển Hormuz trong hai ngày", "https://apnews.com/article/8722c8b5a9deb228e7a188d4760ea8ed"]]},
+ {id:"promise-season",category:"Góc cà khịa",title:"Mùa lời hứa: chính sách chưa thấy, slogan đã chạy full HD",date:"02/11/2026",image:"https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1400&q=85",alt:"Tòa nhà nghị viện",summary:"Một bài châm biếm về căn bệnh muôn thuở của truyền thông chính trị: khẩu hiệu càng ngắn, kỳ vọng càng dài.",tags:["Châm biếm","Truyền thông","Chính sách"],paragraphs:[["Khẩu hiệu gọn, bài toán dài", "Trong chính trị, một thông điệp ngắn có thể giúp người nghe nhớ nhanh. Nhưng những vấn đề như giáo dục, y tế, nhà ở hay việc làm không thể giải bằng một câu có vần. Nếu mọi thứ dễ thế, sách giáo khoa chắc chỉ còn một trang."],["Bản demo và sản phẩm chính thức", "Cử tri xứng đáng được nhìn thấy kế hoạch, ngân sách, thời hạn và cách đo kết quả. Một lời hứa tốt cần có lộ trình. Một lời hứa rất tốt cần cả cơ chế để người dân hỏi: tiến độ đến đâu rồi?"],["Góc nhìn MomJokes", "Đừng chỉ chấm điểm bài phát biểu bằng độ viral. Hãy chấm bằng kết quả. Vì khẩu hiệu có thể chạy quảng cáo, còn bệnh viện, trường học và hóa đơn thì không sống bằng lượt xem."]],source:[["AP: Bối cảnh chính trị và bầu cử giữa kỳ Mỹ", "https://apnews.com/article/c7df622f1e87de6035173be8fb8c4add"]]},
+ {id:"liverpool-arsenal",category:"Thể thao",title:"Liverpool - Arsenal: trận cầu lớn và cộng đồng fan cần thêm giờ nghỉ",date:"02/11/2026",image:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1400&q=85",alt:"Sân vận động bóng đá",summary:"Cuộc đối đầu Liverpool và Arsenal tiếp tục thu hút lượng tìm kiếm lớn tại Việt Nam. Trước giờ bóng lăn, fan đã đá xong 90 phút tranh luận.",tags:["Premier League","Liverpool","Arsenal"],paragraphs:[["Trận đấu bắt đầu từ… phần bình luận", "Liverpool và Arsenal là hai cái tên đủ sức khiến một buổi tối bình thường biến thành lịch sinh hoạt quốc gia của nhiều cổ động viên. Từ đội hình dự kiến đến phong độ hàng công, mọi chi tiết đều được mổ xẻ như thể ai cũng đang giữ bằng huấn luyện viên UEFA."],["Chiến thuật và niềm tin", "Một trận cầu lớn thường được quyết định bởi khả năng pressing, chuyển trạng thái, kiểm soát khu trung tuyến và tận dụng cơ hội. Nhưng trên mạng, đôi khi chỉ cần một đường chuyền hỏng là cả mùa giải bị tuyên bố kết thúc."],["Góc nhìn MomJokes", "Hãy chờ tiếng còi mãn cuộc rồi hãy viết cáo phó hoặc dựng tượng. Bóng đá có 90 phút, còn fan mạng có thể tranh luận đến tận mùa giải sau."]],source:[["Xu hướng tìm kiếm thể thao tại Việt Nam, cập nhật 02/11/2026", "https://www.whatsthepulse.com/trending/vn/category/sports"]]},
+ {id:"bayern-dortmund",category:"Thể thao",title:"Bayern hòa Dortmund 2-2: penalty hỏng, tim fan cũng hụt một nhịp",date:"02/11/2026",image:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1400&q=85",alt:"Trận đấu bóng đá trên sân",summary:"Tin tổng hợp ngày 1/11 ghi nhận Bayern và Dortmund hòa 2-2, Harry Kane đá hỏng phạt đền. Một cú sút, bốn bàn thắng, vô số cuộc tranh luận.",tags:["Bundesliga","Bayern","Dortmund"],paragraphs:[["Kịch bản không chiều lòng người đoán", "Trận Bayern Munich và Borussia Dortmund kết thúc với tỷ số 2-2 theo bản tin tổng hợp ngày 1/11. Harry Kane bỏ lỡ phạt đền, chi tiết đủ để mạng xã hội bật chế độ phân tích chậm từng khung hình."],["Một quả penalty không định nghĩa cả cầu thủ", "Ngay cả những chân sút hàng đầu cũng có thể bỏ lỡ. Điều quan trọng là nhìn toàn bộ màn trình diễn, cơ hội tạo ra và cách đội bóng phản ứng sau khoảnh khắc ấy. Bóng đá không có nút undo, tiếc là cả bình luận viên online cũng không có nút pause."],["Góc nhìn MomJokes", "Nếu cứ một quả penalty hỏng là phải đổi nghề, bóng đá sẽ sớm thiếu người. Trận hòa là câu chuyện của cả 90 phút, không phải một cú sút được replay đến vô tận."]],source:[["World A.LIVE: Tổng hợp tin Việt Nam ngày 01/11/2026", "https://worlda.live/vietnam/news/2026-11-01"]]},
+ {id:"u23-trend",category:"Thể thao",title:"U23 Việt Nam lên xu hướng: dân mạng tìm đội hình nhanh hơn tìm chìa khóa",date:"02/11/2026",image:"https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1400&q=85",alt:"Cầu thủ bóng đá thi đấu",summary:"Từ khóa đội tuyển U23 Việt Nam tăng chú ý trên Google tại Việt Nam. Sự quan tâm là tín hiệu tốt, nhưng đừng biến một đợt tìm kiếm thành áp lực vô lý.",tags:["U23 Việt Nam","Bóng đá Việt Nam","Người hâm mộ"],paragraphs:[["Từ khóa tăng nhiệt", "Một bảng theo dõi xu hướng ghi nhận cụm từ liên quan đội tuyển U23 Việt Nam tăng mạnh trong tìm kiếm tại Việt Nam ngày 2/11. Điều đó cho thấy sự quan tâm của người hâm mộ đang rất lớn."],["Cổ vũ khác với gây áp lực", "Sự chú ý có thể tạo động lực, nhưng cầu thủ trẻ vẫn cần thời gian phát triển. Đừng biến mỗi trận đấu thành bài thi cuối kỳ, nơi một pha xử lý lỗi lập tức bị kết luận rằng tương lai bóng đá nước nhà đã đóng cửa."],["Góc nhìn MomJokes", "Cổ vũ hết mình, góp ý có lý và để cầu thủ được trưởng thành. Đội tuyển cần khán giả, không cần thêm vài triệu huấn luyện viên online cùng lúc chỉ đạo một quả ném biên."]],source:[["Trendomap: Đội tuyển U23 Việt Nam là chủ đề tìm kiếm nổi bật", "https://en.trendomap.com/trend/vietnam-national-under-23-football-team"]]},
+ {id:"viral-outrage",category:"Mạng xã hội",title:"Một drama 15 giây, 15 triệu chuyên gia điều tra xuất hiện",date:"02/11/2026",image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85",alt:"Người dùng tương tác trên mạng xã hội",summary:"Một đoạn clip ngắn có thể tạo ra làn sóng phán xét khổng lồ. Nhưng video cắt 15 giây không tự động trở thành toàn bộ sự thật.",tags:["Mạng xã hội","Viral","Tin giả"],paragraphs:[["Tòa án comment mở cửa 24/7", "Mạng xã hội giúp thông tin lan truyền nhanh, nhưng tốc độ không đồng nghĩa độ chính xác. Một đoạn clip thiếu bối cảnh có thể khiến người xem hiểu sai diễn biến, động cơ hoặc thời điểm."],["Trước khi chia sẻ, thử làm ba việc", "Tìm nguồn gốc video, kiểm tra ngày đăng và tìm thêm nguồn độc lập. Nếu chưa đủ dữ kiện, nói 'chưa rõ' là lựa chọn thông minh. Không phải mọi khoảng trống thông tin đều cần được lấp bằng suy đoán."],["Góc nhìn MomJokes", "Có người xem clip 15 giây rồi viết bản cáo trạng 15 trang. Bình tĩnh một chút: thuật toán thích cảm xúc mạnh, nhưng sự thật thường cần thêm vài tab trình duyệt."]],source:[["VTV/Vietnam.vn: Các chủ đề gây chú ý trên mạng xã hội Việt Nam", "https://www.vietnam.vn/en/nong-tren-mang-tuan-qua-mua-ngap-bong-da-va-con-ghet-bo-me"]]},
+ {id:"influencer-apology",category:"Mạng xã hội",title:"Video xin lỗi: nước mắt 4K, trách nhiệm đôi khi vẫn đang tải",date:"02/11/2026",image:"https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=1400&q=85",alt:"Máy quay ghi hình",summary:"Khi người nổi tiếng vướng tranh cãi, video xin lỗi thường xuất hiện. Nhưng một lời xin lỗi tốt cần nhiều hơn ánh sáng dịu và nhạc piano.",tags:["Influencer","Truyền thông","Văn hóa mạng"],paragraphs:[["Công thức quen thuộc", "Một video xin lỗi trên mạng thường có góc quay tối giản, giọng chậm và lời mở đầu đầy cảm xúc. Nhưng hình thức không thể thay thế nội dung. Người xem cần biết chuyện gì đã xảy ra, ai bị ảnh hưởng và người nói sẽ sửa sai ra sao."],["Xin lỗi không phải nút reset", "Một lời xin lỗi có trách nhiệm cần cụ thể, không đổ lỗi cho ekip, anti-fan hay 'hiểu lầm'. Quan trọng hơn, hành động sau lời nói mới cho thấy sự thay đổi có thật hay không."],["Góc nhìn MomJokes", "Độ phân giải video có thể là 4K, nhưng độ phân giải trách nhiệm phải thể hiện bằng hành động. Đừng để phần hậu kỳ làm việc chăm hơn phần khắc phục."]],source:[["VTV/Vietnam.vn: Thảo luận và tranh cãi trên mạng xã hội", "https://www.vietnam.vn/en/nong-tren-mang-tuan-qua-mua-ngap-bong-da-va-con-ghet-bo-me"]]},
+ {id:"ai-content",category:"Mạng xã hội",title:"AI tạo nội dung: mạng xã hội sắp có nhiều bài hơn cả người đọc",date:"02/11/2026",image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=85",alt:"Trí tuệ nhân tạo và công nghệ",summary:"Công cụ AI giúp sản xuất nội dung nhanh hơn. Thách thức mới là phân biệt nội dung hữu ích với một núi chữ được tạo ra chỉ để câu tương tác.",tags:["AI","Nội dung số","Thuật toán"],paragraphs:[["Khi nút tạo nội dung chạy nhanh hơn não người", "AI có thể hỗ trợ viết, dựng hình, tóm tắt và lên ý tưởng. Nhưng nếu ai cũng đăng hàng chục nội dung mỗi ngày mà không kiểm tra, mạng xã hội sẽ đầy những bài na ná nhau, tiêu đề giật gân và thông tin thiếu kiểm chứng."],["Công cụ không chịu trách nhiệm thay con người", "Người đăng vẫn cần kiểm tra sự thật, tôn trọng bản quyền và minh bạch khi nội dung tổng hợp có thể gây nhầm lẫn. Tốc độ xuất bản không nên vượt tốc độ kiểm chứng."],["Góc nhìn MomJokes", "AI có thể viết 100 bài trong một phút. Nhưng để viết một bài đáng đọc, vẫn cần ý tưởng, trải nghiệm và trách nhiệm. Nếu không, ta chỉ đang dùng máy để tăng sản lượng… rác số."]],source:[["ACCA: Bối cảnh kinh tế và công nghệ toàn cầu năm 2026", "https://www.accaglobal.com/content/dam/ACCA_Global/professional-insights/2026-global-economic-outlook/Global-Economic-Outlook-2026_FINAL-BC.pdf"]]}
+];
+const ARTICLE_IDS = new Set(articles.map(a=>a.id));
+const COMMENT_PREFIX = "momjokes_vuxcd_comments_v2_";
+let activeCategory = "all";
+let currentArticle = null;
+const grid = document.getElementById("articleGrid");
+const searchInput = document.getElementById("articleSearch");
+const clearSearch = document.getElementById("clearSearch");
+const searchStatus = document.getElementById("searchStatus");
+const articleView = document.getElementById("articleView");
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function imageFallback(img){if(img.dataset.fallbackApplied)return;img.dataset.fallbackApplied="1";const label=escapeHTML(img.alt||"MOMJOKES").slice(0,65);const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111923"/><stop offset="1" stop-color="#8f1023"/></linearGradient></defs><rect width="1200" height="650" fill="url(#g)"/><text x="600" y="285" fill="white" font-family="Arial" font-size="68" font-weight="700" text-anchor="middle">MOMJOKES</text><text x="600" y="365" fill="#e8edf1" font-family="Arial" font-size="27" text-anchor="middle">${label}</text></svg>`;img.src="data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);}
+function renderCards(){const q=searchInput.value.trim().toLocaleLowerCase("vi");const list=articles.filter(a=>(activeCategory==="all"||a.category===activeCategory)&&(!q||[a.title,a.summary,a.category,...a.tags].join(" ").toLocaleLowerCase("vi").includes(q)));grid.replaceChildren();list.forEach(a=>{const card=document.createElement("article");card.className="article-card";card.innerHTML=`<img class="card-image" src="${escapeHTML(a.image)}" alt="${escapeHTML(a.alt)}" loading="lazy"><div class="card-content"><span class="category">${escapeHTML(a.category)}</span><h3>${escapeHTML(a.title)}</h3><p>${escapeHTML(a.summary)}</p><span class="meta">${escapeHTML(a.date)} · VuxCd</span><button class="primary-button" type="button">Đọc bài →</button></div>`;card.querySelector("img").addEventListener("error",e=>imageFallback(e.currentTarget));card.querySelector("button").addEventListener("click",()=>showArticle(a.id));grid.appendChild(card);});document.getElementById("articleCount").textContent=`${list.length} bài viết`;searchStatus.textContent=q?`Tìm thấy ${list.length} bài phù hợp.`:"";if(!list.length)grid.innerHTML='<div class="empty-state">Không tìm thấy bài phù hợp. Thử từ khóa khác nhé.</div>';clearSearch.style.display=q?"block":"none";}
+function filterCategory(category,button){activeCategory=category;document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b===button));showHome(false);renderCards();}
+function showHome(scroll=true){currentArticle=null;document.getElementById("home").hidden=false;articleView.hidden=true;articleView.replaceChildren();if(scroll)window.scrollTo({top:0,behavior:"smooth"});}
+function showArticle(id){const a=articles.find(x=>x.id===id);if(!a||!ARTICLE_IDS.has(id))return;currentArticle=id;document.getElementById("home").hidden=true;articleView.hidden=false;articleView.innerHTML=`<span class="category">${escapeHTML(a.category)} · ${escapeHTML(a.date)}</span><h1>${escapeHTML(a.title)}</h1><div class="meta">BÁO MOMJOKES · Tác giả: VuxCd</div><p class="article-lead">${escapeHTML(a.summary)}</p><div class="satire-note"><strong>Ghi chú:</strong> Bài viết có sử dụng châm biếm và bình luận. Các dữ kiện sự kiện được dẫn nguồn ở cuối bài.</div><img class="article-hero" src="${escapeHTML(a.image)}" alt="${escapeHTML(a.alt)}" loading="lazy"><div class="article-body">${a.paragraphs.map(([h,p])=>`<h2>${escapeHTML(h)}</h2><p>${escapeHTML(p)}</p>`).join("")}</div><div class="verdict">MOMJOKES: CƯỜI CÓ Ý THỨC, CÀ KHỊA CÓ NGUỒN.</div><div class="article-actions"><strong>Nguồn tham khảo:</strong>${a.source.map(([name,url])=>`<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(name)} ↗</a>`).join(" ")}</div><section class="comments" aria-label="Bình luận"><h2>Bình luận</h2><p class="comments-intro">Bình luận được lưu trên trình duyệt hiện tại, chưa đồng bộ giữa các thiết bị.</p><div class="comment-access" id="commentAccess"></div><form class="comment-form" id="commentForm"><input name="name" maxlength="40" placeholder="Tên hiển thị" autocomplete="nickname" required><textarea name="message" maxlength="1000" placeholder="Viết bình luận..." required></textarea><button type="submit">ĐĂNG BÌNH LUẬN</button></form><div class="comment-list" aria-live="polite"></div></section><button class="back-button" type="button" id="backHome">← QUAY LẠI TRANG CHỦ</button>`;articleView.querySelector(".article-hero").addEventListener("error",e=>imageFallback(e.currentTarget));articleView.querySelector("#backHome").addEventListener("click",()=>showHome());const commentForm=articleView.querySelector("#commentForm");const access=articleView.querySelector("#commentAccess");if(!isLoggedIn()){commentForm.hidden=true;access.innerHTML=`<p class="comments-intro">Guest chỉ được đọc báo. <button type="button" class="primary-button" id="commentLogin">Đăng nhập / Đăng ký</button> để bình luận.</p>`;access.querySelector("button").addEventListener("click",()=>openAuth("login"));}else{commentForm.elements.name.value=currentUser.name||"";commentForm.elements.name.readOnly=true;access.innerHTML=currentUser.role==="admin"?'<div class="admin-tools"><strong>ADMIN MODE:</strong> Có quyền kiểm duyệt và xóa bình luận trên trình duyệt này.</div>':'<p class="comments-intro">Bạn đang đăng bình luận với tư cách USER.</p>';commentForm.addEventListener("submit",submitComment);}drawComments(id);window.scrollTo({top:0,behavior:"smooth"});}
+function getComments(id){try{const a=JSON.parse(localStorage.getItem(COMMENT_PREFIX+id)||"[]");return Array.isArray(a)?a:[];}catch{return [];}}
+function submitComment(e){e.preventDefault();const form=e.currentTarget;const name=form.elements.name.value.trim();const message=form.elements.message.value.trim();if(!name||!message)return;const comments=getComments(currentArticle);comments.push({name,message,date:new Date().toLocaleString("vi-VN")});try{localStorage.setItem(COMMENT_PREFIX+currentArticle,JSON.stringify(comments));form.elements.message.value="";drawComments(currentArticle);}catch{alert("Không thể lưu bình luận trên trình duyệt này.");}}
+function drawComments(id){const list=articleView.querySelector(".comment-list");if(!list)return;list.replaceChildren();const comments=getComments(id);if(!comments.length){const p=document.createElement("p");p.className="comment-empty";p.textContent="Chưa có bình luận nào. Hãy là người mở màn!";list.appendChild(p);return;}comments.slice().reverse().forEach((c,index)=>{const item=document.createElement("div");item.className="comment-item";const head=document.createElement("div");head.className="comment-head";const name=document.createElement("span");name.className="comment-name";name.textContent=c.name;const date=document.createElement("span");date.className="comment-date";date.textContent=c.date;const body=document.createElement("div");body.className="comment-body";body.textContent=c.message;head.append(name,date);item.append(head,body);if(currentUser&&currentUser.role==="admin"){const del=document.createElement("button");del.type="button";del.className="comment-delete";del.textContent="Xóa bình luận";del.addEventListener("click",()=>{const all=getComments(id);const actual=all.length-1-index;if(actual>=0){all.splice(actual,1);localStorage.setItem(COMMENT_PREFIX+id,JSON.stringify(all));drawComments(id)}});item.appendChild(del)}list.appendChild(item);});}
+searchInput.addEventListener("input",()=>{if(!articleView.hidden)showHome(false);renderCards();});clearSearch.addEventListener("click",()=>{searchInput.value="";renderCards();searchInput.focus();});
+
+// MOMJOKES AUTH DEMO: local-only roles for UI demonstration. Production needs server-side auth.
+const AUTH_USERS_KEY="momjokes_auth_users_v3";
+const AUTH_SESSION_KEY="momjokes_auth_session_v3";
+let authMode="login";
+let currentUser=null;
+function readUsers(){try{const v=JSON.parse(localStorage.getItem(AUTH_USERS_KEY)||"[]");return Array.isArray(v)?v:[]}catch{return []}}
+function saveUsers(v){localStorage.setItem(AUTH_USERS_KEY,JSON.stringify(v))}
+function openAuth(mode){authMode=mode;document.getElementById("authTitle").textContent=mode==="register"?"Tạo tài khoản MomJokes":"Đăng nhập MomJokes";document.getElementById("authSubtitle").textContent=mode==="register"?"Tài khoản mới được cấp quyền USER.":"Đăng nhập để bình luận và sử dụng tài khoản.";document.getElementById("authName").hidden=mode!=="register";document.getElementById("authName").required=mode==="register";document.getElementById("authPassword").autocomplete=mode==="register"?"new-password":"current-password";document.getElementById("authSubmit").textContent=mode==="register"?"Đăng ký tài khoản":"Đăng nhập";document.getElementById("authBackdrop").hidden=false;document.getElementById("authEmail").focus()}
+function setSession(user){currentUser=user;try{sessionStorage.setItem(AUTH_SESSION_KEY,JSON.stringify(user))}catch{}updateAccountUI()}
+function updateAccountUI(){const status=document.getElementById("accountStatus");const login=document.getElementById("loginOpen"),reg=document.getElementById("registerOpen"),guest=document.getElementById("guestContinue"),logout=document.getElementById("logoutBtn");if(currentUser){const role=currentUser.role||"guest";const labels={admin:"ADMIN",user:"USER",guest:"GUEST"};status.innerHTML=`Xin chào, <strong>${escapeHTML(currentUser.name||currentUser.email)}</strong><span class="role-chip role-${role}">${labels[role]||"GUEST"}</span>`;login.hidden=reg.hidden=guest.hidden=true;logout.hidden=false;}else{status.textContent="Bạn đang xem với tư cách khách.";login.hidden=reg.hidden=guest.hidden=false;logout.hidden=true}}
+function isLoggedIn(){return !!currentUser&&(currentUser.role==="user"||currentUser.role==="admin")}
+document.getElementById("loginOpen").addEventListener("click",()=>openAuth("login"));
+document.getElementById("registerOpen").addEventListener("click",()=>openAuth("register"));
+document.getElementById("guestContinue").addEventListener("click",()=>{setSession({name:"Khách",role:"guest"});document.getElementById("accountStatus").scrollIntoView({block:"nearest",behavior:"smooth"})});
+document.getElementById("logoutBtn").addEventListener("click",()=>{currentUser=null;sessionStorage.removeItem(AUTH_SESSION_KEY);updateAccountUI();if(!articleView.hidden)showArticle(currentArticle)});
+document.getElementById("authClose").addEventListener("click",()=>document.getElementById("authBackdrop").hidden=true);
+document.getElementById("authBackdrop").addEventListener("click",e=>{if(e.target.id==="authBackdrop")e.currentTarget.hidden=true});
+document.getElementById("authForm").addEventListener("submit",e=>{e.preventDefault();const email=document.getElementById("authEmail").value.trim().toLowerCase();const password=document.getElementById("authPassword").value;const users=readUsers();if(authMode==="register"){const name=document.getElementById("authName").value.trim();if(!name){alert("Nhập tên hiển thị nhé.");return}if(users.some(u=>u.email===email)){alert("Tài khoản đã tồn tại.");return}const user={name,email,password,role:"user"};users.push(user);saveUsers(users);setSession({name,email,role:"user"});alert("Đăng ký thành công! Bạn đã có quyền USER.");}else{const user=users.find(u=>u.email===email&&u.password===password);if(!user){alert("Sai tài khoản hoặc mật khẩu.");return}setSession({name:user.name,email:user.email,role:user.role||"user"});alert("Đăng nhập thành công!")}document.getElementById("authBackdrop").hidden=true;e.currentTarget.reset();if(!articleView.hidden)showArticle(currentArticle)});
+try{const saved=JSON.parse(sessionStorage.getItem(AUTH_SESSION_KEY)||"null");if(saved&&["guest","user","admin"].includes(saved.role))currentUser=saved}catch{}
+updateAccountUI();
+
+renderCards();
+</script>
+</body>
+</html>
