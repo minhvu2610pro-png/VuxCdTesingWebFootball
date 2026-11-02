@@ -1,0 +1,796 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BÁO MOMJOKES | Tin tức không nghiêm túc</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+
+:root {
+    --bg:#f4f5f7;
+    --paper:#ffffff;
+    --ink:#172033;
+    --muted:#788195;
+    --red:#d92738;
+    --navy:#101a2d;
+    --line:#e8eaf0;
+}
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+    font-family:'Be Vietnam Pro',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+a {color:inherit;text-decoration:none}
+.topline {height:5px;background:var(--red)}
+.container {width:min(1200px,94%);margin:auto}
+header {background:var(--paper);border-bottom:1px solid var(--line)}
+.header-top {
+    display:flex;justify-content:space-between;align-items:center;
+    padding:23px 0;gap:20px;
+}
+.logo {font-size:35px;font-weight:900;letter-spacing:-2px}
+.logo span {color:var(--red)}
+.logo small {
+    display:block;font-size:10px;letter-spacing:3px;
+    color:var(--muted);font-weight:700;margin-top:2px
+}
+.header-actions {display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn {
+    border:0;border-radius:7px;padding:10px 16px;
+    font-weight:700;font-size:13px;transition:.2s
+}
+.btn:hover {transform:translateY(-2px);opacity:.9}
+.btn-red {background:var(--red);color:white}
+.btn-dark {background:var(--navy);color:white}
+.btn-light {background:#f0f1f5;color:var(--ink)}
+.btn-outline {background:white;border:1px solid var(--line);color:var(--ink)}
+nav {background:var(--navy);color:white}
+.nav-inner {display:flex;align-items:center;gap:0;overflow-x:auto}
+.nav-inner button {
+    background:none;border:0;color:#dce1eb;padding:15px 18px;
+    font-weight:700;font-size:12px;white-space:nowrap
+}
+.nav-inner button:hover,.nav-inner button.active {
+    background:var(--red);color:white
+}
+.hero {
+    margin:25px auto;display:grid;grid-template-columns:1.5fr 1fr;
+    gap:18px
+}
+.hero-main,.hero-side article {
+    position:relative;overflow:hidden;border-radius:12px;
+    background:#182235;color:white;cursor:pointer
+}
+.hero-main {min-height:390px}
+.hero-side {display:grid;grid-template-rows:1fr 1fr;gap:18px}
+.hero-side article {min-height:185px}
+.hero img {
+    width:100%;height:100%;object-fit:cover;position:absolute;
+    inset:0;transition:.4s
+}
+.hero article:hover img {transform:scale(1.04)}
+.hero article:after {
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg,rgba(0,0,0,.9),transparent 75%)
+}
+.hero-content {
+    position:absolute;z-index:1;bottom:25px;left:25px;right:25px
+}
+.tag {
+    display:inline-block;background:var(--red);color:white;
+    font-size:10px;font-weight:800;padding:5px 9px;
+    border-radius:4px;margin-bottom:12px;text-transform:uppercase
+}
+.hero h1 {font-size:clamp(22px,3vw,35px);line-height:1.3;margin-bottom:10px}
+.hero-side h2 {font-size:18px;line-height:1.4}
+.meta {font-size:11px;color:#bfc6d4}
+.section-heading {
+    display:flex;align-items:center;justify-content:space-between;
+    border-bottom:2px solid var(--navy);margin:30px 0 20px;padding-bottom:10px
+}
+.section-heading h2 {font-size:20px;font-weight:900}
+.section-heading h2:before {
+    content:"";display:inline-block;width:5px;height:20px;
+    background:var(--red);margin-right:10px;vertical-align:middle
+}
+.searchbar {display:flex;gap:8px}
+.searchbar input {
+    width:230px;padding:10px 13px;border:1px solid var(--line);
+    border-radius:7px;outline:none;background:white
+}
+.content-layout {display:grid;grid-template-columns:1fr 300px;gap:25px}
+.articles {display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.article-card {
+    background:white;border-radius:10px;overflow:hidden;
+    border:1px solid var(--line);cursor:pointer;transition:.2s
+}
+.article-card:hover {transform:translateY(-4px);box-shadow:0 10px 30px #18223512}
+.article-card img {width:100%;height:205px;object-fit:cover;display:block}
+.card-body {padding:17px}
+.card-body h3 {font-size:17px;line-height:1.5;margin:8px 0}
+.card-body p {font-size:12px;color:var(--muted);line-height:1.7}
+.card-meta {font-size:10px;color:var(--muted);margin-top:13px}
+.category-label {font-size:10px;color:var(--red);font-weight:900;text-transform:uppercase}
+.sidebar-box {
+    background:white;border:1px solid var(--line);
+    border-radius:10px;padding:20px;margin-bottom:18px
+}
+.sidebar-box h3 {font-size:15px;margin-bottom:15px}
+.trending-item {
+    display:flex;gap:12px;padding:12px 0;
+    border-bottom:1px solid var(--line);cursor:pointer
+}
+.trending-item:last-child {border:0}
+.trending-number {font-size:24px;font-weight:900;color:#d9dce4}
+.trending-item p {font-size:12px;font-weight:700;line-height:1.5}
+.trending-item small {color:var(--muted);font-size:10px}
+footer {background:var(--navy);color:white;margin-top:55px;padding:40px 0}
+.footer-inner {display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+footer p {color:#aab3c3;font-size:12px;line-height:1.8;margin-top:10px}
+.hidden {display:none!important}
+
+/* ARTICLE DETAIL */
+#articleView {
+    background:white;min-height:70vh;padding:35px;
+    border-radius:12px;margin:25px auto
+}
+.back-btn {margin-bottom:25px}
+.article-detail {max-width:850px;margin:auto}
+.article-detail h1 {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(28px,4vw,44px);line-height:1.3;margin:15px 0
+}
+.article-detail .lead {font-size:17px;color:#596477;line-height:1.8;margin:20px 0}
+.article-detail .cover {
+    width:100%;max-height:480px;object-fit:cover;
+    border-radius:10px;margin:15px 0
+}
+.article-content {font-size:15px;line-height:2;color:#30394a}
+.article-content p {margin:18px 0}
+.article-content h2 {font-size:22px;margin:30px 0 10px;color:var(--navy)}
+.article-content blockquote {
+    border-left:4px solid var(--red);padding:15px 20px;
+    background:#f6f7fa;font-weight:700;margin:25px 0
+}
+.source-note {font-size:11px;color:var(--muted);margin-top:25px}
+.comments {border-top:1px solid var(--line);margin-top:40px;padding-top:25px}
+.comments textarea,.editor textarea,.editor input,.auth-box input {
+    width:100%;padding:12px;border:1px solid var(--line);
+    border-radius:7px;margin:8px 0;outline:none
+}
+.comment {
+    padding:14px 0;border-bottom:1px solid var(--line);
+    font-size:13px;line-height:1.7
+}
+.comment strong {display:block;margin-bottom:4px}
+
+/* MODALS / DASHBOARD */
+.modal {
+    position:fixed;inset:0;background:#101a2ddd;z-index:20;
+    display:flex;align-items:center;justify-content:center;padding:15px
+}
+.modal-box {
+    background:white;width:min(470px,100%);max-height:90vh;
+    overflow:auto;padding:28px;border-radius:12px
+}
+.modal-box h2 {margin-bottom:15px}
+.modal-box label {font-size:12px;font-weight:700}
+.modal-box input,.modal-box textarea,.modal-box select {
+    width:100%;padding:11px;border:1px solid var(--line);
+    border-radius:7px;margin:7px 0 14px
+}
+.modal-close {float:right;background:none;border:0;font-size:23px}
+.editor {background:white;padding:25px;border-radius:10px;margin:25px 0}
+.editor textarea {min-height:180px;resize:vertical}
+.dashboard {
+    background:white;padding:25px;border-radius:10px;margin:25px 0
+}
+.pending-item {
+    border:1px solid var(--line);padding:16px;border-radius:8px;
+    margin:12px 0
+}
+.pending-item h3 {font-size:16px;margin-bottom:7px}
+.pending-item p {font-size:12px;color:var(--muted);margin-bottom:12px}
+.role-pill {
+    display:inline-block;background:#fff0f1;color:var(--red);
+    font-size:10px;padding:5px 8px;border-radius:5px;font-weight:900
+}
+.notice {
+    background:#fff7e7;border:1px solid #f5dfad;padding:13px;
+    border-radius:8px;font-size:12px;line-height:1.7;margin:15px 0
+}
+@media(max-width:850px) {
+    .content-layout {grid-template-columns:1fr}
+    .sidebar {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+}
+@media(max-width:650px) {
+    .header-top {align-items:flex-start;flex-direction:column}
+    .logo {font-size:29px}
+    .hero {grid-template-columns:1fr}
+    .hero-main {min-height:300px}
+    .hero-side {grid-template-columns:1fr 1fr;grid-template-rows:170px}
+    .hero-side article {min-height:170px}
+    .hero-side h2 {font-size:13px}
+    .articles {grid-template-columns:1fr}
+    .sidebar {display:block}
+    #articleView {padding:18px}
+    .searchbar input {width:150px}
+}
+</style>
+</head>
+<body>
+<div class="topline"></div>
+
+<header>
+    <div class="container header-top">
+        <a href="#" onclick="goHome()" class="logo">
+            BÁO MOM<span>JOKES</span>
+            <small>TIN TỨC • GÓC NHÌN • CÀ KHỊA</small>
+        </a>
+        <div class="header-actions" id="accountActions">
+            <button class="btn btn-outline" onclick="openAuth('login')">Đăng nhập</button>
+            <button class="btn btn-red" onclick="openAuth('register')">Đăng ký</button>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <div class="container nav-inner">
+        <button class="active" onclick="filterCategory('Tất cả',this)">TRANG CHỦ</button>
+        <button onclick="filterCategory('Chính trị',this)">CHÍNH TRỊ</button>
+        <button onclick="filterCategory('Thể thao',this)">THỂ THAO</button>
+        <button onclick="filterCategory('Mạng xã hội',this)">MẠNG XÃ HỘI</button>
+        <button onclick="filterCategory('Góc cà khịa',this)">GÓC CÀ KHỊA</button>
+    </div>
+</nav>
+
+<main class="container" id="homeView">
+    <section class="hero" id="hero"></section>
+
+    <div class="section-heading">
+        <h2>TIN MỚI NHẤT</h2>
+        <div class="searchbar">
+            <input id="searchInput" placeholder="Tìm kiếm bài viết..." oninput="renderArticles()">
+        </div>
+    </div>
+
+    <div class="content-layout">
+        <section>
+            <div class="articles" id="articleGrid"></div>
+            <p id="emptyMessage" class="hidden" style="padding:30px;background:white;text-align:center">
+                Không tìm thấy bài viết nào.
+            </p>
+        </section>
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h3>🔥 ĐỌC NHIỀU</h3>
+                <div id="trending"></div>
+            </div>
+            <div class="sidebar-box">
+                <h3>📌 VỀ MOMJOKES</h3>
+                <p style="font-size:12px;line-height:1.8;color:#788195">
+                    Một góc tin tức và giải trí với phong cách riêng.
+                    Đọc có chọn lọc, suy nghĩ có chính kiến.
+                </p>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<section class="container hidden" id="articleView">
+    <button class="btn btn-light back-btn" onclick="goHome()">← Quay lại trang chủ</button>
+    <div id="articleDetail"></div>
+</section>
+
+<section class="container hidden" id="writeView">
+    <div class="editor">
+        <h2>✍️ GỬI BÀI VIẾT</h2>
+        <div class="notice">
+            Bài viết của bạn sẽ được gửi đến Admin để kiểm duyệt.
+            Chỉ bài được duyệt mới xuất hiện công khai trên trang chủ.
+        </div>
+        <label>Tiêu đề bài viết</label>
+        <input id="draftTitle" placeholder="Nhập tiêu đề...">
+        <label>Danh mục</label>
+        <select id="draftCategory">
+            <option>Chính trị</option>
+            <option>Thể thao</option>
+            <option>Mạng xã hội</option>
+            <option>Góc cà khịa</option>
+        </select>
+        <label>Link ảnh minh họa</label>
+        <input id="draftImage" placeholder="https://...">
+        <label>Mô tả ngắn</label>
+        <textarea id="draftExcerpt" rows="3" placeholder="Giới thiệu ngắn về bài viết..."></textarea>
+        <label>Nội dung bài viết</label>
+        <textarea id="draftContent" placeholder="Viết nội dung bài viết tại đây..."></textarea>
+        <button class="btn btn-red" onclick="submitDraft()">GỬI BÀI CHỜ DUYỆT</button>
+        <button class="btn btn-light" onclick="goHome()">Hủy</button>
+    </div>
+</section>
+
+<section class="container hidden" id="adminView">
+    <div class="dashboard">
+        <h2>🛡️ ADMIN DASHBOARD</h2>
+        <p style="color:#788195;font-size:12px;margin:8px 0 20px">
+            Quản lý bài viết do người dùng gửi lên.
+        </p>
+        <div class="notice">
+            Đây là bảng quản trị demo trên trình duyệt hiện tại.
+            Không sử dụng tài khoản này cho hệ thống thật.
+        </div>
+        <div id="adminPending"></div>
+    </div>
+</section>
+
+<section class="container hidden" id="myView">
+    <div class="dashboard">
+        <h2>👤 TÀI KHOẢN CỦA TÔI</h2>
+        <div id="myInfo"></div>
+        <h3 style="margin-top:25px">Bài viết đã gửi</h3>
+        <div id="mySubmissions"></div>
+    </div>
+</section>
+
+<footer>
+    <div class="container footer-inner">
+        <div>
+            <div class="logo">BÁO MOM<span>JOKES</span></div>
+            <p>Tin tức theo một góc nhìn khác.</p>
+        </div>
+        <div>
+            <p>© 2026 BÁO MOMJOKES</p>
+            <p>Được xây dựng bởi VuxCd.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal hidden" id="authModal">
+    <div class="modal-box auth-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2 id="authTitle">Đăng nhập</h2>
+        <label>Tên tài khoản</label>
+        <input id="authUsername" placeholder="Username">
+        <label>Mật khẩu</label>
+        <input id="authPassword" type="password" placeholder="Password">
+        <div id="registerExtra" class="hidden">
+            <label>Nhập lại mật khẩu</label>
+            <input id="authConfirm" type="password" placeholder="Nhập lại mật khẩu">
+        </div>
+        <button class="btn btn-red" style="width:100%" id="authSubmit" onclick="handleAuth()">ĐĂNG NHẬP</button>
+        <p id="authSwitch" style="font-size:12px;margin-top:15px;text-align:center"></p>
+        <p id="authMessage" style="font-size:12px;color:var(--red);margin-top:10px"></p>
+    </div>
+</div>
+
+<script>
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "MomJokes@2026";
+
+const defaultArticles = [
+{
+id:1,category:"Thể thao",
+title:"Những hệ quả tai hại đang chờ MU phía trước sau thất bại trước Chelsea?",
+excerpt:"Một thất bại không chỉ lấy đi ba điểm. Nó còn khiến hàng loạt câu hỏi về bản lĩnh và tương lai của đội bóng được đặt ra.",
+image:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200",
+date:"02/11/2026",author:"VuxCd",views:1200,
+content:`<p>Manchester United lại có thêm một trận đấu khiến người hâm mộ phải đặt câu hỏi. Thất bại trước Chelsea không đơn thuần là chuyện tỷ số. Điều đáng quan tâm hơn nằm ở cách đội bóng phản ứng khi bị đặt vào thế khó.</p>
+<h2>Áp lực không chỉ nằm trên bảng điểm</h2>
+<p>Một đội bóng lớn luôn được đánh giá bằng khả năng đứng dậy sau những thời điểm khó khăn. Khi những sai lầm cũ tiếp tục xuất hiện, áp lực sẽ lan từ sân cỏ đến phòng thay đồ và ban huấn luyện.</p>
+<h2>Điều gì chờ đợi phía trước?</h2>
+<p>MU cần những câu trả lời cụ thể: lối chơi có ổn định không, các cầu thủ có duy trì được sự tập trung không và đội bóng có đủ chiều sâu để cạnh tranh hay không?</p>
+<blockquote>Thất bại có thể là một bài học. Nhưng lặp lại cùng một sai lầm thì đó lại là vấn đề.</blockquote>
+<p>Người hâm mộ có quyền kỳ vọng nhiều hơn, nhưng câu trả lời cuối cùng vẫn phải đến từ màn trình diễn trên sân.</p>`
+},
+{
+id:2,category:"Thể thao",
+title:"Liverpool và Arsenal: cuộc đua không dành cho những phút mất tập trung",
+excerpt:"Hai đội bóng, hai cách tiếp cận và một cuộc cạnh tranh mà chỉ một khoảnh khắc cũng có thể thay đổi tất cả.",
+image:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200",
+date:"01/11/2026",author:"VuxCd",views:980,
+content:`<p>Liverpool và Arsenal luôn tạo ra những cuộc đối đầu đáng chú ý. Cả hai đều hiểu rằng trong một mùa giải dài, sự ổn định quan trọng không kém những chiến thắng bùng nổ.</p><h2>Chi tiết quyết định trận đấu</h2><p>Khả năng kiểm soát khu trung tuyến, tốc độ chuyển trạng thái và sự tập trung ở hàng thủ sẽ là những yếu tố có thể tạo ra khác biệt.</p><p>Cuộc đua vẫn còn dài. Điều quan trọng là đội nào giữ được nhịp độ tốt hơn.</p>`
+},
+{
+id:3,category:"Thể thao",
+title:"Bayern Munich và Dortmund: Der Klassiker luôn có chuyện để kể",
+excerpt:"Trận đấu giữa hai thế lực bóng đá Đức luôn mang theo áp lực, danh dự và những câu chuyện ngoài chuyên môn.",
+image:"https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=1200",
+date:"31/10/2026",author:"VuxCd",views:870,
+content:`<p>Der Klassiker không chỉ là một trận đấu thông thường. Đây là cuộc đối đầu gắn với danh dự và vị thế của hai câu lạc bộ hàng đầu nước Đức.</p><h2>Không có chỗ cho sự chủ quan</h2><p>Một khoảnh khắc mất tập trung có thể khiến mọi tính toán trước trận trở nên vô nghĩa.</p>`
+},
+{
+id:4,category:"Mạng xã hội",
+title:"Một xu hướng mới lại khiến cộng đồng mạng chia thành hai phe",
+excerpt:"Khi một nội dung viral xuất hiện, tranh luận thường đến nhanh hơn cả lời giải thích.",
+image:"https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200",
+date:"30/10/2026",author:"VuxCd",views:740,
+content:`<p>Mạng xã hội luôn có khả năng biến một câu chuyện nhỏ thành chủ đề được bàn luận rộng rãi. Nhưng mức độ phổ biến không đồng nghĩa với độ chính xác.</p><h2>Đọc trước khi chia sẻ</h2><p>Người dùng nên kiểm tra nguồn, bối cảnh và thời điểm của thông tin trước khi đưa ra kết luận.</p>`
+},
+{
+id:5,category:"Chính trị",
+title:"Những lời hứa chính trị và bài kiểm tra mang tên thực tế",
+excerpt:"Lời hứa có thể tạo ra kỳ vọng, nhưng kết quả mới là điều người dân có thể nhìn thấy.",
+image:"https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1200",
+date:"29/10/2026",author:"VuxCd",views:650,
+content:`<p>Trong đời sống chính trị, những lời hứa luôn có sức nặng. Tuy nhiên, điều quan trọng không nằm ở cách một lời hứa được trình bày mà ở khả năng biến nó thành chính sách có kết quả.</p><h2>Trách nhiệm giải trình</h2><p>Công chúng cần thông tin rõ ràng về tiến độ, nguồn lực và những khó khăn trong quá trình thực hiện.</p>`
+},
+{
+id:6,category:"Thể thao",
+title:"Nguyễn Văn Phúc: nghị lực phía sau những lần nâng tạ",
+excerpt:"Tấm huy chương đồng tại ASEAN Para Games 13 là dấu mốc đáng nhớ trên hành trình thi đấu của vận động viên cử tạ người khuyết tật Việt Nam.",
+image:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200",
+date:"02/11/2026",author:"VuxCd",views:1500,
+content:`<p>Thể thao thành tích cao luôn đòi hỏi sự bền bỉ, kỷ luật và tinh thần vượt qua giới hạn. Với vận động viên cử tạ người khuyết tật Nguyễn Văn Phúc, hành trình ấy được tạo nên từ nhiều năm tập luyện và thi đấu.</p>
+<h2>Dấu ấn tại ASEAN Para Games</h2>
+<p>Tại ASEAN Para Games 13, Nguyễn Văn Phúc giành huy chương đồng nội dung cử tạ nam hạng cân 59 kg với mức nâng 129 kg. Thành tích này góp thêm một tấm huy chương cho đoàn thể thao người khuyết tật Việt Nam.</p>
+<h2>Phía sau một lần nâng tạ</h2>
+<p>Đằng sau thành tích thi đấu là quá trình chuẩn bị lâu dài, sự kiên trì trong tập luyện và khả năng duy trì tinh thần cạnh tranh. Những vận động viên như anh góp phần cho thấy thể thao không chỉ được đo bằng sức mạnh thể chất, mà còn bằng ý chí và sự bền bỉ.</p>
+<blockquote>Mỗi tấm huy chương đều có câu chuyện riêng. Và đôi khi, hành trình phía sau nó mới là điều đáng nhớ nhất.</blockquote>
+<p><i>Ảnh minh họa hoạt động tập luyện thể thao, không phải ảnh Nguyễn Văn Phúc.</i></p>
+<p class="source-note">Thông tin tham khảo: TTXVN và các bài viết thể thao về ASEAN Para Games 13.</p>`
+},
+{
+id:7,category:"Mạng xã hội",
+title:"Vì sao một lời xin lỗi trên mạng đôi khi chưa đủ?",
+excerpt:"Một bài đăng vài dòng có thể khép lại tranh cãi, nhưng không phải lúc nào cũng giải quyết được vấn đề.",
+image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200",
+date:"28/10/2026",author:"VuxCd",views:620,
+content:`<p>Một lời xin lỗi có thể là bước đầu tiên để nhận trách nhiệm. Tuy nhiên, người tiếp nhận thường quan tâm đến hành động sửa sai hơn là cách trình bày.</p><h2>Xin lỗi và thay đổi</h2><p>Sự chân thành cần được thể hiện qua hành động cụ thể, nhất quán và có trách nhiệm.</p>`
+},
+{
+id:8,category:"Mạng xã hội",
+title:"AI tạo nội dung: tiện lợi nhưng không phải chiếc máy tạo sự thật",
+excerpt:"Công nghệ có thể giúp tạo nội dung nhanh hơn, nhưng người dùng vẫn cần kiểm chứng thông tin.",
+image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200",
+date:"27/10/2026",author:"VuxCd",views:800,
+content:`<p>Công cụ AI đang thay đổi cách con người viết, thiết kế và tìm kiếm thông tin. Nhưng nội dung được tạo ra không tự động trở thành sự thật.</p><h2>Vai trò của người sử dụng</h2><p>Kiểm chứng dữ liệu, tôn trọng bản quyền và minh bạch khi sử dụng AI là những nguyên tắc cần thiết.</p>`
+},
+{
+id:9,category:"Thể thao",
+title:"Man City và bài toán duy trì sự thống trị",
+excerpt:"Khi đối thủ ngày càng tiến bộ, việc giữ vị trí dẫn đầu đòi hỏi nhiều hơn một đội hình chất lượng.",
+image:"https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=1200",
+date:"26/10/2026",author:"VuxCd",views:590,
+content:`<p>Thành công trong bóng đá không chỉ đến từ những cá nhân xuất sắc. Hệ thống chiến thuật, chiều sâu đội hình và khả năng thích nghi đều đóng vai trò quan trọng.</p>`
+},
+{
+id:10,category:"Thể thao",
+title:"Messi và câu chuyện về sự bền bỉ trong bóng đá",
+excerpt:"Sự nghiệp của một cầu thủ không chỉ được ghi nhớ bằng những bàn thắng mà còn bằng dấu ấn để lại.",
+image:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200",
+date:"25/10/2026",author:"VuxCd",views:1100,
+content:`<p>Trong bóng đá hiện đại, Lionel Messi là một trong những cái tên có ảnh hưởng lớn. Hành trình của anh gắn liền với kỹ thuật, sự sáng tạo và khả năng duy trì phong độ trong thời gian dài.</p>`
+},
+{
+id:11,category:"Thể thao",
+title:"Tottenham và cuộc tìm kiếm sự ổn định",
+excerpt:"Một đội bóng có thể chơi rất hay trong một trận, nhưng mùa giải được quyết định bởi tính ổn định.",
+image:"https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=1200",
+date:"24/10/2026",author:"VuxCd",views:430,
+content:`<p>Tottenham luôn sở hữu những giai đoạn thi đấu giàu năng lượng. Thách thức nằm ở việc duy trì điều đó trong suốt mùa giải.</p>`
+},
+{
+id:12,category:"Chính trị",
+title:"Quốc hội và những cuộc tranh luận thu hút sự chú ý",
+excerpt:"Tranh luận công khai là một phần của đời sống chính trị, nhưng điều quan trọng vẫn là chất lượng quyết định.",
+image:"https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1200",
+date:"23/10/2026",author:"VuxCd",views:410,
+content:`<p>Những cuộc tranh luận tại nghị trường thường thu hút sự quan tâm bởi chúng liên quan đến chính sách và đời sống xã hội.</p><h2>Điều công chúng cần</h2><p>Thông tin rõ ràng, lập luận có căn cứ và trách nhiệm giải trình là những yếu tố quan trọng.</p>`
+},
+{
+id:13,category:"Góc cà khịa",
+title:"Khi ai cũng trở thành chuyên gia sau đúng một video",
+excerpt:"Một đoạn clip ngắn đôi khi đủ để mạng xã hội mở phiên tòa với hàng nghìn thẩm phán.",
+image:"https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=1200",
+date:"22/10/2026",author:"VuxCd",views:900,
+content:`<p>Internet có một khả năng đặc biệt: biến rất nhiều người thành chuyên gia chỉ sau vài giây xem video.</p><p>Vấn đề là một đoạn clip có thể thiếu bối cảnh, thiếu thông tin và đôi khi thiếu cả phần đầu lẫn phần cuối.</p><blockquote>Phán xét thì nhanh, tìm hiểu thì cần thêm vài phút.</blockquote>`
+},
+{
+id:14,category:"Mạng xã hội",
+title:"Nguyễn Đức Vượng: gương mặt diễn viên nhí từng xuất hiện trong Quỳnh Búp Bê",
+excerpt:"Từng được giới thiệu trên truyền thông từ khi còn nhỏ, Nguyễn Đức Vượng là một gương mặt nhí có hoạt động trong lĩnh vực quảng cáo và diễn xuất.",
+image:"https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1200",
+date:"02/11/2026",author:"VuxCd",views:890,
+content:`<p>Nguyễn Đức Vượng là diễn viên nhí từng được truyền thông nhắc đến khi xuất hiện trong bộ phim truyền hình Quỳnh Búp Bê. Những thông tin được công bố về em vào năm 2018 cho biết em khi đó mới khoảng 6 tuổi và đã tham gia một số hoạt động như chụp ảnh quảng cáo, TVC và video.</p>
+<h2>Bắt đầu từ những hoạt động nghệ thuật khi còn nhỏ</h2>
+<p>Theo bài viết giới thiệu trên Eva năm 2018, Đức Vượng có gần hai năm kinh nghiệm làm mẫu nhí trước khi được biết đến qua vai diễn truyền hình. Cơ hội diễn xuất đến với em trong quá trình tham gia các hoạt động nghệ thuật.</p>
+<h2>Một gương mặt nhí được chú ý</h2>
+<p>Việc xuất hiện trong một bộ phim truyền hình được quan tâm giúp tên tuổi của diễn viên nhí được nhiều khán giả biết đến hơn. Tuy nhiên, những thông tin trên chủ yếu phản ánh hoạt động của em tại thời điểm năm 2018.</p>
+<p><i>Ảnh minh họa phim trường, không phải ảnh Nguyễn Đức Vượng.</i></p>
+<p class="source-note">Nguồn tham khảo: bài viết giới thiệu diễn viên nhí Nguyễn Đức Vượng trên Eva, năm 2018. Bài viết không khẳng định thông tin về hoạt động hiện tại của nhân vật.</p>`
+},
+{
+id:15,category:"Góc cà khịa",
+title:"Thông báo họp lớp: nơi mọi lời hứa đều có thể biến mất",
+excerpt:"Ai cũng bảo sẽ đến. Nhưng đến ngày hẹn, nhóm chat lại yên tĩnh đến lạ.",
+image:"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200",
+date:"20/10/2026",author:"VuxCd",views:500,
+content:`<p>Họp lớp là một sự kiện đặc biệt. Trước ngày diễn ra, mọi người thường nhiệt tình xác nhận. Đến ngày hẹn, một số người bắt đầu phát hiện ra những lịch trình bất ngờ.</p><p>Dù vậy, những cuộc gặp mặt vẫn là dịp để mọi người ôn lại kỷ niệm và kết nối sau thời gian dài.</p>`
+}
+];
+
+let articles = JSON.parse(localStorage.getItem("mj_articles") || "null") || defaultArticles;
+let users = JSON.parse(localStorage.getItem("mj_users") || "null") || [
+    {username:ADMIN_USER,password:ADMIN_PASS,role:"ADMIN"}
+];
+let pending = JSON.parse(localStorage.getItem("mj_pending") || "[]");
+let comments = JSON.parse(localStorage.getItem("mj_comments") || "{}");
+let currentUser = JSON.parse(sessionStorage.getItem("mj_user") || "null");
+let activeCategory = "Tất cả";
+let authMode = "login";
+
+function saveAll() {
+    localStorage.setItem("mj_articles",JSON.stringify(articles));
+    localStorage.setItem("mj_users",JSON.stringify(users));
+    localStorage.setItem("mj_pending",JSON.stringify(pending));
+    localStorage.setItem("mj_comments",JSON.stringify(comments));
+}
+function escapeHTML(value) {
+    return String(value || "").replace(/[&<>"']/g,c=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[c]));
+}
+function safeImage(url) {
+    return /^https:\/\/.+/i.test(url || "") ? url : "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1000";
+}
+function showOnly(id) {
+    ["homeView","articleView","writeView","adminView","myView"].forEach(x=>{
+        document.getElementById(x).classList.toggle("hidden",x!==id);
+    });
+    window.scrollTo(0,0);
+}
+function goHome() {
+    showOnly("homeView");
+    renderArticles();
+}
+function renderHero() {
+    const featured=articles.slice(0,3);
+    if(!featured.length) return;
+    document.getElementById("hero").innerHTML=`
+        <article class="hero-main" onclick="openArticle(${featured[0].id})">
+            <img src="${safeImage(featured[0].image)}" alt="">
+            <div class="hero-content">
+                <span class="tag">${escapeHTML(featured[0].category)}</span>
+                <h1>${escapeHTML(featured[0].title)}</h1>
+                <div class="meta">${escapeHTML(featured[0].date)} · ${escapeHTML(featured[0].author)}</div>
+            </div>
+        </article>
+        <div class="hero-side">
+            ${featured.slice(1).map(a=>`
+                <article onclick="openArticle(${a.id})">
+                    <img src="${safeImage(a.image)}" alt="">
+                    <div class="hero-content">
+                        <span class="tag">${escapeHTML(a.category)}</span>
+                        <h2>${escapeHTML(a.title)}</h2>
+                    </div>
+                </article>`).join("")}
+        </div>`;
+}
+function renderArticles() {
+    const query=(document.getElementById("searchInput")?.value || "").toLowerCase();
+    const list=articles.filter(a=>
+        (activeCategory==="Tất cả" || a.category===activeCategory) &&
+        (a.title.toLowerCase().includes(query) ||
+         a.excerpt.toLowerCase().includes(query) ||
+         a.category.toLowerCase().includes(query))
+    );
+    document.getElementById("articleGrid").innerHTML=list.map(a=>`
+        <article class="article-card" onclick="openArticle(${a.id})">
+            <img src="${safeImage(a.image)}" alt="">
+            <div class="card-body">
+                <div class="category-label">${escapeHTML(a.category)}</div>
+                <h3>${escapeHTML(a.title)}</h3>
+                <p>${escapeHTML(a.excerpt)}</p>
+                <div class="card-meta">${escapeHTML(a.date)} · ${escapeHTML(a.author)} · ${a.views || 0} lượt xem</div>
+            </div>
+        </article>`).join("");
+    document.getElementById("emptyMessage").classList.toggle("hidden",list.length!==0);
+    renderHero();
+    renderTrending();
+}
+function filterCategory(category,button) {
+    activeCategory=category;
+    document.querySelectorAll(".nav-inner button").forEach(b=>b.classList.remove("active"));
+    if(button) button.classList.add("active");
+    goHome();
+}
+function renderTrending() {
+    document.getElementById("trending").innerHTML=articles.slice(0,5).map((a,i)=>`
+        <div class="trending-item" onclick="openArticle(${a.id})">
+            <div class="trending-number">0${i+1}</div>
+            <div><p>${escapeHTML(a.title)}</p><small>${escapeHTML(a.category)}</small></div>
+        </div>`).join("");
+}
+function openArticle(id) {
+    const a=articles.find(x=>x.id===id);
+    if(!a) return;
+    a.views=(a.views||0)+1;
+    saveAll();
+    showOnly("articleView");
+    document.getElementById("articleDetail").innerHTML=`
+        <article class="article-detail">
+            <div class="category-label">${escapeHTML(a.category)}</div>
+            <h1>${escapeHTML(a.title)}</h1>
+            <p class="meta" style="color:#788195">${escapeHTML(a.date)} · Tác giả: ${escapeHTML(a.author)} · ${a.views} lượt xem</p>
+            <p class="lead">${escapeHTML(a.excerpt)}</p>
+            <img class="cover" src="${safeImage(a.image)}" alt="">
+            <div class="article-content">${a.content}</div>
+            <div class="comments">
+                <h2>💬 BÌNH LUẬN</h2>
+                <div id="commentList">${renderCommentHTML(id)}</div>
+                <textarea id="commentInput" rows="3" placeholder="${currentUser ? "Viết bình luận..." : "Đăng nhập để bình luận..."}" ${currentUser?"":"disabled"}></textarea>
+                <button class="btn btn-red" onclick="addComment(${id})" ${currentUser?"":"disabled"}>GỬI BÌNH LUẬN</button>
+            </div>
+        </article>`;
+}
+function renderCommentHTML(id) {
+    return (comments[id]||[]).map(c=>`
+        <div class="comment"><strong>${escapeHTML(c.username)}</strong>${escapeHTML(c.text)}</div>
+    `).join("") || '<p style="color:#788195;font-size:12px;margin:15px 0">Chưa có bình luận nào.</p>';
+}
+function addComment(id) {
+    if(!currentUser) return alert("Bạn cần đăng nhập để bình luận.");
+    const input=document.getElementById("commentInput");
+    const text=input.value.trim();
+    if(!text) return;
+    comments[id]=comments[id]||[];
+    comments[id].push({username:currentUser.username,text});
+    saveAll();
+    input.value="";
+    document.getElementById("commentList").innerHTML=renderCommentHTML(id);
+}
+function openAuth(mode) {
+    authMode=mode;
+    document.getElementById("authModal").classList.remove("hidden");
+    document.getElementById("authMessage").textContent="";
+    document.getElementById("authTitle").textContent=mode==="login"?"Đăng nhập":"Tạo tài khoản";
+    document.getElementById("authSubmit").textContent=mode==="login"?"ĐĂNG NHẬP":"ĐĂNG KÝ";
+    document.getElementById("registerExtra").classList.toggle("hidden",mode!=="register");
+    document.getElementById("authSwitch").innerHTML=mode==="login"
+        ? 'Chưa có tài khoản? <a href="#" onclick="openAuth(\'register\')">Đăng ký</a>'
+        : 'Đã có tài khoản? <a href="#" onclick="openAuth(\'login\')">Đăng nhập</a>';
+}
+function closeModal() {
+    document.getElementById("authModal").classList.add("hidden");
+}
+function handleAuth() {
+    const username=document.getElementById("authUsername").value.trim();
+    const password=document.getElementById("authPassword").value;
+    const message=document.getElementById("authMessage");
+    if(!username || !password) {
+        message.textContent="Vui lòng nhập đầy đủ thông tin.";return;
+    }
+    if(authMode==="register") {
+        const confirm=document.getElementById("authConfirm").value;
+        if(username.length<3) {message.textContent="Tên tài khoản cần ít nhất 3 ký tự.";return;}
+        if(password.length<6) {message.textContent="Mật khẩu cần ít nhất 6 ký tự.";return;}
+        if(password!==confirm) {message.textContent="Mật khẩu nhập lại không khớp.";return;}
+        if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())) {
+            message.textContent="Tên tài khoản đã tồn tại.";return;
+        }
+        users.push({username,password,role:"USER"});
+        saveAll();
+        message.textContent="Đăng ký thành công! Hãy đăng nhập.";
+        setTimeout(()=>openAuth("login"),700);
+        return;
+    }
+    const user=users.find(u=>u.username===username && u.password===password);
+    if(!user) {message.textContent="Tên tài khoản hoặc mật khẩu không đúng.";return;}
+    currentUser={username:user.username,role:user.role};
+    sessionStorage.setItem("mj_user",JSON.stringify(currentUser));
+    closeModal();
+    updateAccount();
+    goHome();
+}
+function logout() {
+    currentUser=null;
+    sessionStorage.removeItem("mj_user");
+    updateAccount();
+    goHome();
+}
+function updateAccount() {
+    const box=document.getElementById("accountActions");
+    if(!currentUser) {
+        box.innerHTML=`
+            <button class="btn btn-outline" onclick="openAuth('login')">Đăng nhập</button>
+            <button class="btn btn-red" onclick="openAuth('register')">Đăng ký</button>`;
+        return;
+    }
+    box.innerHTML=`
+        <span style="font-size:12px;font-weight:700">Xin chào, ${escapeHTML(currentUser.username)}</span>
+        <span class="role-pill">${currentUser.role}</span>
+        <button class="btn btn-outline" onclick="showMyAccount()">Tài khoản</button>
+        ${currentUser.role==="ADMIN"?'<button class="btn btn-dark" onclick="showAdmin()">ADMIN</button>':''}
+        ${currentUser.role==="USER"?'<button class="btn btn-red" onclick="showWrite()">Viết bài</button>':''}
+        <button class="btn btn-light" onclick="logout()">Đăng xuất</button>`;
+}
+function showWrite() {
+    if(!currentUser || currentUser.role!=="USER") return alert("Chỉ tài khoản USER mới được gửi bài.");
+    showOnly("writeView");
+}
+function submitDraft() {
+    const title=document.getElementById("draftTitle").value.trim();
+    const category=document.getElementById("draftCategory").value;
+    const imageUrl=document.getElementById("draftImage").value.trim();
+    const excerpt=document.getElementById("draftExcerpt").value.trim();
+    const content=document.getElementById("draftContent").value.trim();
+    if(!title || !excerpt || !content) return alert("Vui lòng điền tiêu đề, mô tả và nội dung.");
+    if(title.length<8 || content.length<30) return alert("Tiêu đề cần ít nhất 8 ký tự, nội dung ít nhất 30 ký tự.");
+    pending.push({
+        id:Date.now(),title,category,image:safeImage(imageUrl),
+        excerpt,content:paragraphsToHTML(content),
+        author:currentUser.username,date:new Date().toLocaleDateString("vi-VN"),
+        status:"PENDING"
+    });
+    saveAll();
+    ["draftTitle","draftImage","draftExcerpt","draftContent"].forEach(id=>document.getElementById(id).value="");
+    alert("Đã gửi bài! Bài viết đang chờ Admin kiểm duyệt.");
+    goHome();
+}
+function paragraphsToHTML(text) {
+    return text.split(/\n+/).map(p=>"<p>"+escapeHTML(p)+"</p>").join("");
+}
+function showAdmin() {
+    if(!currentUser || currentUser.role!=="ADMIN") return alert("Bạn không có quyền Admin.");
+    showOnly("adminView");
+    const box=document.getElementById("adminPending");
+    if(!pending.length) {
+        box.innerHTML="<p>Hiện không có bài viết chờ duyệt.</p>";return;
+    }
+    box.innerHTML=pending.map(a=>`
+        <div class="pending-item">
+            <span class="role-pill">CHỜ DUYỆT</span>
+            <h3>${escapeHTML(a.title)}</h3>
+            <p>Người gửi: ${escapeHTML(a.author)} · ${escapeHTML(a.category)} · ${escapeHTML(a.date)}</p>
+            <p>${escapeHTML(a.excerpt)}</p>
+            <details style="margin:10px 0">
+                <summary style="cursor:pointer;font-size:12px;font-weight:700">Xem nội dung</summary>
+                <div style="font-size:13px;line-height:1.8;margin-top:10px">${a.content}</div>
+            </details>
+            <button class="btn btn-red" onclick="approveDraft(${a.id})">DUYỆT BÀI</button>
+            <button class="btn btn-light" onclick="rejectDraft(${a.id})">TỪ CHỐI</button>
+        </div>`).join("");
+}
+function approveDraft(id) {
+    if(!currentUser || currentUser.role!=="ADMIN") return;
+    const index=pending.findIndex(a=>a.id===id);
+    if(index<0) return;
+    const draft=pending.splice(index,1)[0];
+    articles.unshift({
+        ...draft,id:Date.now(),views:0,
+        content:draft.content
+    });
+    saveAll();
+    showAdmin();
+}
+function rejectDraft(id) {
+    if(!currentUser || currentUser.role!=="ADMIN") return;
+    if(!confirm("Bạn chắc chắn muốn từ chối bài viết này?")) return;
+    pending=pending.filter(a=>a.id!==id);
+    saveAll();
+    showAdmin();
+}
+function showMyAccount() {
+    if(!currentUser) return;
+    showOnly("myView");
+    document.getElementById("myInfo").innerHTML=`
+        <p style="margin:10px 0">Tên tài khoản: <b>${escapeHTML(currentUser.username)}</b></p>
+        <p>Vai trò: <span class="role-pill">${currentUser.role}</span></p>`;
+    const mine=pending.filter(a=>a.author===currentUser.username);
+    document.getElementById("mySubmissions").innerHTML=mine.length?mine.map(a=>`
+        <div class="pending-item">
+            <h3>${escapeHTML(a.title)}</h3>
+            <p>Trạng thái: <b>Đang chờ Admin duyệt</b></p>
+        </div>`).join(""):"<p style='margin-top:12px;color:#788195'>Bạn chưa có bài viết chờ duyệt.</p>";
+}
+updateAccount();
+renderArticles();
+</script>
+</body>
+</html>
